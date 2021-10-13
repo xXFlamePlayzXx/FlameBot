@@ -1,0 +1,36 @@
+//Created By Ders#0001
+//Feel Free To DM With Any Questions
+
+const lib = require('lib')({token: process.env.STDLIB_SECRET_TOKEN});
+
+let channel = context.params.event.data.options[0].value; //The Channel You Select In The Slash Command
+let title = context.params.event.data.options[1].value; //The Title You Choose In The Slash Command
+let description = context.params.event.data.options[2].value; //The Description You Choose In The Slash Command
+
+//Sends The Poll
+let message = await lib.discord.channels['@0.2.1'].messages.create({
+  channel_id: channel,
+  content: ``,
+  embeds: [
+    {
+      type: 'rich',
+      title: `New Poll | *Please Vote On ${title}*`,
+      description: description,
+      color: 0x00e1ff,
+    },
+  ],
+});
+
+//Adds The Upvote Reaction
+await lib.discord.channels['@0.2.1'].messages.reactions.create({
+  emoji: `⬆️`,
+  message_id: message.id,
+  channel_id: message.channel_id,
+});
+
+//Adds The Downvote Reaction
+await lib.discord.channels['@0.2.1'].messages.reactions.create({
+  emoji: `⬇️`,
+  message_id: message.id,
+  channel_id: message.channel_id,
+});
